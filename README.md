@@ -18,25 +18,50 @@ The Smile Widget Company currently sells two types of smile widgets: a Big Widge
 6. Load data from fixtures:
   * `>>> python manage.py loaddata 0001_fixtures.json`
 
-### Technical Requirements
-* We currently have two products with the following prices:
-    * Big Widget - $1000
-    * Small Widget - $99
-* These products, along with existing gift cards are already setup in the database.  Study the existing models and initial data.
-* Create a new ProductPrice model and setup the following price schedule:    
-  * Black Friday Prices (November 23, 24, & 25)
-    * Big Widget - $800
-    * Small Widget - FREE!
-  * 2019 Prices (starting January 1, 2019)
-    * Big Widget - $1200
-    * Small Widget - $125
-* Build a JSON API endpoint that accepts a product code, date, and (optional) gift card and returns product price.
-  * The endpoint should live at `api/get-price` and accept the following parameters:
+### Usage
+* Send Get Request to /api/get-price with the below parameter names
     * `"productCode"`
     * `"date"`
-    * `"giftCardCode"`
-* Make all of your changes in a new feature branch and submit a pull request to _your own forked repo_.
+    * `"giftCardCode"`(Optional)
 
-### Additional Information
-* Please use Django Rest Framework or a Python HTTP framework of your choice to create the endpoint.
-* Just as a general guideline, we've designed this exercise to take less than 4 hours.
+
+
+## Get Product Price [/api/get-price?productCode=big_widget&date=2019-01-01&giftCardCode=10OFF]
+### Product list with date specific prices [GET]
+
+
++ Response 200 (application/json)
+    
+      
+    + Body
+
+               [
+                    {
+                        "price": 119000,
+                        "id": 1,
+                        "name": "Big Widget"
+                    },
+                    {
+                        "price": 10000,
+                        "id": 3,
+                        "name": "Big Widget"
+                    }
+                ]         
+        
+               
++ Response 400 (application/json)
+
+    - No productCode and date get params
+    
+    + Body
+
+                {
+                    "date": [
+                        "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
+                    ],
+                    "code": [
+                        "Please include productCode in get parameters"
+                    ]
+                }
+
+
